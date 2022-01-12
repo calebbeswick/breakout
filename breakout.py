@@ -2,6 +2,7 @@ import pygame, sys
 from pygame.locals import *
 
 import brick
+import paddle
 
 # Constants that will be used in the program
 APPLICATION_WIDTH = 400
@@ -35,17 +36,50 @@ mainsurface.fill((255, 255, 255))
 # the screen (BRICK_Y_OFFSET)
 x_pos = BRICK_SEP
 y_pos = BRICK_Y_OFFSET
-for x in range(BRICKS_PER_ROW):
-    b = brick.Brick(BRICK_WIDTH, BRICK_HEIGHT, RED)
-    b.rect.x = x_pos
-    b.rect.y = y_pos
-    mainsurface.blit(b.image, b.rect)
+total = 0
+for x in range(10):
+    for x in range(10):
+        for x in range(BRICKS_PER_ROW):
+            if total <= 1:
+                color = RED
+            elif total >=2 and total <= 3:
+                color = ORANGE
+            elif total >=4 and total <=5:
+                color = YELLOW
+            elif total >=6 and total <= 7:
+                color = GREEN
+            elif total >=8 and total <= 9:
+                color = CYAN
+            b = brick.Brick(BRICK_WIDTH, BRICK_HEIGHT, color)
+            b.rect.x = x_pos
+            b.rect.y = y_pos
+            mainsurface.blit(b.image, b.rect)
+            x_pos = x_pos + BRICK_WIDTH + BRICK_SEP
+    y_pos = y_pos + 15
+    x_pos = BRICK_SEP
+    total = total + 1
+
+
+paddle = paddle.Paddle(PADDLE_WIDTH, PADDLE_HEIGHT, BLACK)
+paddle.rect.x = 160
+paddle.rect.y = 500
+
+
+
+
+
 
 while True:
+    mainsurface.fill(WHITE)
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+        if event.type == MOUSEMOTION:
+            paddle.move(pygame.mouse.get_pos())
+            mainsurface.blit(paddle.image, paddle.rect)
+            print(pygame.mouse.get_pos())
+
     pygame.display.update()
 
 
