@@ -1,8 +1,8 @@
 import pygame, sys
 from pygame.locals import *
+import brick, paddle, ball
 
-import brick
-import paddle
+time = pygame.time.Clock()
 
 # Constants that will be used in the program
 APPLICATION_WIDTH = 400
@@ -34,9 +34,11 @@ mainsurface.fill((255, 255, 255))
 
 # Step 1: Use loops to draw the rows of bricks. The top row of bricks should be 70 pixels away from the top of
 # the screen (BRICK_Y_OFFSET)
+
 x_pos = BRICK_SEP
 y_pos = BRICK_Y_OFFSET
 total = 0
+bricks = pygame.sprite.Group()
 for x in range(10):
     for x in range(10):
         for x in range(BRICKS_PER_ROW):
@@ -51,6 +53,7 @@ for x in range(10):
             elif total >=8 and total <= 9:
                 color = CYAN
             b = brick.Brick(BRICK_WIDTH, BRICK_HEIGHT, color)
+            bricks.add(b)
             b.rect.x = x_pos
             b.rect.y = y_pos
             mainsurface.blit(b.image, b.rect)
@@ -59,15 +62,15 @@ for x in range(10):
     x_pos = BRICK_SEP
     total = total + 1
 
-
+paddle_group = pygame.sprite.Group()
 paddle = paddle.Paddle(PADDLE_WIDTH, PADDLE_HEIGHT, BLACK)
 paddle.rect.x = 160
 paddle.rect.y = 500
 
-
-
-
-
+round_object = ball.Ball(RED, 40, 40, RADIUS_OF_BALL)
+round_object.rect.x = 400
+round_object.rect.y = 200
+mainsurface.blit(round_object.image, round_object.rect)
 
 while True:
     mainsurface.fill(WHITE)
@@ -77,10 +80,10 @@ while True:
             sys.exit()
         if event.type == MOUSEMOTION:
             paddle.move(pygame.mouse.get_pos())
-            mainsurface.blit(paddle.image, paddle.rect)
-            print(pygame.mouse.get_pos())
+            paddle_group.add(paddle)
+    mainsurface.blit(paddle.image, paddle.rect)
+    for x in bricks:
+        mainsurface.blit(x.image, x.rect)
 
     pygame.display.update()
-
-
-
+    time.tick(30)

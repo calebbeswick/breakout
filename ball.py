@@ -14,11 +14,15 @@ class Ball(pygame.sprite.Sprite):
 
         # Create a surface, get the rect coordinates, fill the surface with a white color (or whatever color the
         # background of your breakout game will be.
-        self.image =
-        self.rect =
+        self.image = pygame.Surface((self.windowWidth, self.windowHeight))
+        self.rect = self.image.get_rect()
+        self.image.fill(self.color)
+
+
 
         # Add a circle to represent the ball to the surface just created. Just use the pygame.draw.circle method.
         # The surface will be self.image
+
 
 
         # Give the ball an initial speed. You will need a speed for the x direction and one for the y direction.

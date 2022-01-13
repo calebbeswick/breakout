@@ -22,5 +22,7 @@ class Paddle(pygame.sprite.Sprite):
 
 
 
+
+
     def move(self, mouse_coordinates):
         self.rect.x = mouse_coordinates[0]
