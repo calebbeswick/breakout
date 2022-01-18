@@ -64,13 +64,13 @@ for x in range(10):
 
 paddle_group = pygame.sprite.Group()
 paddle = paddle.Paddle(PADDLE_WIDTH, PADDLE_HEIGHT, BLACK)
+paddle_group.add(paddle)
 paddle.rect.x = 160
 paddle.rect.y = 500
 
-round_object = ball.Ball(RED, 40, 40, RADIUS_OF_BALL)
-round_object.rect.x = 400
-round_object.rect.y = 200
-mainsurface.blit(round_object.image, round_object.rect)
+ba = ball.Ball(BLACK, APPLICATION_WIDTH, APPLICATION_HEIGHT, RADIUS_OF_BALL)
+ba.rect.x = APPLICATION_WIDTH / 2
+ba.rect.y = APPLICATION_HEIGHT / 2
 
 while True:
     mainsurface.fill(WHITE)
@@ -80,8 +80,12 @@ while True:
             sys.exit()
         if event.type == MOUSEMOTION:
             paddle.move(pygame.mouse.get_pos())
-            paddle_group.add(paddle)
+    ba.move()
+    ba.paddle_collide(paddle_group)
+    ba.brick_collide(bricks)
+    mainsurface.blit(ba.image, ba.rect)
     mainsurface.blit(paddle.image, paddle.rect)
+
     for x in bricks:
         mainsurface.blit(x.image, x.rect)
 

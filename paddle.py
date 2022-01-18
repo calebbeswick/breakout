@@ -26,3 +26,5 @@ class Paddle(pygame.sprite.Sprite):
 
     def move(self, mouse_coordinates):
         self.rect.x = mouse_coordinates[0]
+        if self.rect.x > 340:
+            self.rect.x = 340

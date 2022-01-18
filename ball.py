@@ -14,19 +14,35 @@ class Ball(pygame.sprite.Sprite):
 
         # Create a surface, get the rect coordinates, fill the surface with a white color (or whatever color the
         # background of your breakout game will be.
-        self.image = pygame.Surface((self.windowWidth, self.windowHeight))
-        self.rect = self.image.get_rect()
+        self.image = pygame.Surface(((radius * 2), (radius * 2)))
         self.image.fill(self.color)
+
 
 
 
         # Add a circle to represent the ball to the surface just created. Just use the pygame.draw.circle method.
         # The surface will be self.image
-
+        pygame.draw.circle(self.image, (self.color), (25, 25), self.radius)
+        self.rect = self.image.get_rect()
 
 
         # Give the ball an initial speed. You will need a speed for the x direction and one for the y direction.
-
+        self.x_speed = 6
+        self.y_speed = 6
 
     def move(self):
-       pass
+        self.rect.x += self.x_speed
+        self.rect.y += self.y_speed
+        if self.rect.left < 0 or self.rect.right > self.windowWidth:
+            self.x_speed = -self.x_speed
+        if self.rect.top < 0 or self.rect.bottom > self.windowHeight:
+            self.y_speed = -self.y_speed
+
+
+
+    def paddle_collide(self, group):
+        if pygame.sprite.spritecollide(self, group, False):
+            self.y_speed = -self.y_speed
+    def brick_collide(self, group):
+        if pygame.sprite.spritecollide(self, group, True):
+            self.y_speed = -self.y_speed
