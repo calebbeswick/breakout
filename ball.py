@@ -1,5 +1,5 @@
 import pygame
-
+import brick
 class Ball(pygame.sprite.Sprite):
 
     def __init__(self, color, windowWidth, windowHeight, radius):
@@ -15,14 +15,14 @@ class Ball(pygame.sprite.Sprite):
         # Create a surface, get the rect coordinates, fill the surface with a white color (or whatever color the
         # background of your breakout game will be.
         self.image = pygame.Surface(((radius * 2), (radius * 2)))
-        self.image.fill(self.color)
+        self.image.fill((255, 255, 255))
 
 
 
 
         # Add a circle to represent the ball to the surface just created. Just use the pygame.draw.circle method.
         # The surface will be self.image
-        pygame.draw.circle(self.image, (self.color), (25, 25), self.radius)
+        pygame.draw.circle(self.image, (self.color), (10, 10), self.radius)
         self.rect = self.image.get_rect()
 
 
@@ -30,19 +30,44 @@ class Ball(pygame.sprite.Sprite):
         self.x_speed = 6
         self.y_speed = 6
 
-    def move(self):
+
+
+
+    def move(self, length):
         self.rect.x += self.x_speed
         self.rect.y += self.y_speed
         if self.rect.left < 0 or self.rect.right > self.windowWidth:
             self.x_speed = -self.x_speed
         if self.rect.top < 0 or self.rect.bottom > self.windowHeight:
             self.y_speed = -self.y_speed
+        # if self.rect.bottom > self.windowHeight:
+        #     self.y_speed = 0
+        #     self.x_speed = 0
+        if length >= 980:
+            self.x_speed = 7
+            self.y_speed = 7
+        elif length >= 960:
+            self.x_speed = 9
+            self.y_speed = 9
+        elif length >= 940:
+            self.x_speed = 11
+            self.y_speed = 11
+        elif length >= 920:
+            self.x_speed = 13
+            self.y_speed = 13
+        elif length >= 900:
+            self.x_speed = 15
+            self.y_speed = 15
+
+
+
 
 
 
     def paddle_collide(self, group):
         if pygame.sprite.spritecollide(self, group, False):
             self.y_speed = -self.y_speed
+
     def brick_collide(self, group):
         if pygame.sprite.spritecollide(self, group, True):
             self.y_speed = -self.y_speed

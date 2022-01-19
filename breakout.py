@@ -28,6 +28,8 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
 pygame.init()
+pygame.font.init()
+pygame.mixer.init()
 mainsurface = pygame.display.set_mode((APPLICATION_WIDTH, APPLICATION_HEIGHT), 0, 32)
 pygame.display.set_caption("Breakout")
 mainsurface.fill((255, 255, 255))
@@ -44,14 +46,19 @@ for x in range(10):
         for x in range(BRICKS_PER_ROW):
             if total <= 1:
                 color = RED
+                speed = 10
             elif total >=2 and total <= 3:
                 color = ORANGE
+                speed = 9
             elif total >=4 and total <=5:
                 color = YELLOW
+                speed = 8
             elif total >=6 and total <= 7:
                 color = GREEN
+                speed = 7
             elif total >=8 and total <= 9:
                 color = CYAN
+                speed = 6
             b = brick.Brick(BRICK_WIDTH, BRICK_HEIGHT, color)
             bricks.add(b)
             b.rect.x = x_pos
@@ -80,7 +87,8 @@ while True:
             sys.exit()
         if event.type == MOUSEMOTION:
             paddle.move(pygame.mouse.get_pos())
-    ba.move()
+    length = len(bricks)
+    ba.move(length)
     ba.paddle_collide(paddle_group)
     ba.brick_collide(bricks)
     mainsurface.blit(ba.image, ba.rect)
@@ -88,6 +96,8 @@ while True:
 
     for x in bricks:
         mainsurface.blit(x.image, x.rect)
+
+
 
     pygame.display.update()
     time.tick(30)

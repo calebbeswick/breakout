@@ -1,4 +1,5 @@
 import pygame
+import ball
 
 class Brick(pygame.sprite.Sprite):
 
@@ -9,7 +10,7 @@ class Brick(pygame.sprite.Sprite):
         # finish setting the class variables to the parameters
         self.width = width
         self.height = height
-        self.color = color
+        self.brick_color = color
 
         # Create a surface with the correct height and width
         self.image = pygame.Surface((self.width, self.height))
@@ -18,7 +19,7 @@ class Brick(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         # Fill the surface with the correct color
-        self.image.fill(self.color)
+        self.image.fill(self.brick_color)
 
 
 
