@@ -17,6 +17,7 @@ PADDLE_WIDTH = 60
 PADDLE_HEIGHT = 10
 RADIUS_OF_BALL = 10
 NUM_TURNS = 3
+BALL_SPEED = 6
 
 # Sets up the colors
 RED = (255, 0, 0)
@@ -41,33 +42,19 @@ x_pos = BRICK_SEP
 y_pos = BRICK_Y_OFFSET
 total = 0
 bricks = pygame.sprite.Group()
-for x in range(10):
-    for x in range(10):
+colors = [RED, ORANGE, YELLOW, GREEN, CYAN]
+for color in colors:
+    for x in range(2):
         for x in range(BRICKS_PER_ROW):
-            if total <= 1:
-                color = RED
-                speed = 10
-            elif total >=2 and total <= 3:
-                color = ORANGE
-                speed = 9
-            elif total >=4 and total <=5:
-                color = YELLOW
-                speed = 8
-            elif total >=6 and total <= 7:
-                color = GREEN
-                speed = 7
-            elif total >=8 and total <= 9:
-                color = CYAN
-                speed = 6
             b = brick.Brick(BRICK_WIDTH, BRICK_HEIGHT, color)
-            bricks.add(b)
             b.rect.x = x_pos
             b.rect.y = y_pos
             mainsurface.blit(b.image, b.rect)
+            bricks.add(b)
             x_pos = x_pos + BRICK_WIDTH + BRICK_SEP
-    y_pos = y_pos + 15
-    x_pos = BRICK_SEP
-    total = total + 1
+
+        y_pos += 15
+        x_pos = BRICK_SEP
 
 paddle_group = pygame.sprite.Group()
 paddle = paddle.Paddle(PADDLE_WIDTH, PADDLE_HEIGHT, BLACK)
@@ -87,8 +74,7 @@ while True:
             sys.exit()
         if event.type == MOUSEMOTION:
             paddle.move(pygame.mouse.get_pos())
-    length = len(bricks)
-    ba.move(length)
+    ba.move()
     ba.paddle_collide(paddle_group)
     ba.brick_collide(bricks)
     mainsurface.blit(ba.image, ba.rect)

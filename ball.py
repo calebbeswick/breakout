@@ -33,7 +33,7 @@ class Ball(pygame.sprite.Sprite):
 
 
 
-    def move(self, length):
+    def move(self):
         self.rect.x += self.x_speed
         self.rect.y += self.y_speed
         if self.rect.left < 0 or self.rect.right > self.windowWidth:
@@ -43,21 +43,7 @@ class Ball(pygame.sprite.Sprite):
         # if self.rect.bottom > self.windowHeight:
         #     self.y_speed = 0
         #     self.x_speed = 0
-        if length >= 980:
-            self.x_speed = 7
-            self.y_speed = 7
-        elif length >= 960:
-            self.x_speed = 9
-            self.y_speed = 9
-        elif length >= 940:
-            self.x_speed = 11
-            self.y_speed = 11
-        elif length >= 920:
-            self.x_speed = 13
-            self.y_speed = 13
-        elif length >= 900:
-            self.x_speed = 15
-            self.y_speed = 15
+
 
 
 
@@ -69,5 +55,18 @@ class Ball(pygame.sprite.Sprite):
             self.y_speed = -self.y_speed
 
     def brick_collide(self, group):
+        length = len(group)
+        print(length)
         if pygame.sprite.spritecollide(self, group, True):
             self.y_speed = -self.y_speed
+        if length >= 90:
+            speed = 7
+        elif length >= 80:
+            speed = 9
+        elif length >= 70:
+            speed = 11
+        elif length >= 60:
+            speed = 13
+        elif length >= 50:
+            speed = 15
+        self.y_speed = speed
