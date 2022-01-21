@@ -20,10 +20,12 @@ class Ball(pygame.sprite.Sprite):
 
 
 
+
         # Add a circle to represent the ball to the surface just created. Just use the pygame.draw.circle method.
         # The surface will be self.image
         pygame.draw.circle(self.image, (self.color), (10, 10), self.radius)
         self.rect = self.image.get_rect()
+
 
 
         # Give the ball an initial speed. You will need a speed for the x direction and one for the y direction.
@@ -54,19 +56,20 @@ class Ball(pygame.sprite.Sprite):
         if pygame.sprite.spritecollide(self, group, False):
             self.y_speed = -self.y_speed
 
+
     def brick_collide(self, group):
         length = len(group)
-        print(length)
         if pygame.sprite.spritecollide(self, group, True):
             self.y_speed = -self.y_speed
-        if length >= 90:
-            speed = 7
-        elif length >= 80:
-            speed = 9
-        elif length >= 70:
-            speed = 11
-        elif length >= 60:
-            speed = 13
-        elif length >= 50:
-            speed = 15
-        self.y_speed = speed
+            speed = 17
+            if length >= 90:
+                speed = 7
+            elif length >= 80:
+                speed = 9
+            elif length >= 70:
+                speed = 11
+            elif length >= 60:
+                speed = 13
+            elif length >= 50:
+                speed = 15
+            self.y_speed = speed
