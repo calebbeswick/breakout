@@ -52,6 +52,7 @@ class Ball(pygame.sprite.Sprite):
 
 
 
+
     def paddle_collide(self, group):
         if pygame.sprite.spritecollide(self, group, False):
             self.y_speed = -self.y_speed
@@ -73,3 +74,6 @@ class Ball(pygame.sprite.Sprite):
             elif length >= 50:
                 speed = 15
             self.y_speed = speed
+            crash_sound = pygame.mixer.Sound("hit.wav")
+            pygame.mixer.Sound.play(crash_sound)
+

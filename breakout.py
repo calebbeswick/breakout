@@ -28,13 +28,23 @@ CYAN = (0, 255, 255)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
+BACKROUND_COLOR = WHITE
+PADDLE_COLOR = BLACK
+BALL_COLOR = BLACK
+
 pygame.init()
+pygame.mixer.init() # add this line
 mainsurface = pygame.display.set_mode((APPLICATION_WIDTH, APPLICATION_HEIGHT), 0, 32)
 pygame.display.set_caption("Breakout")
-mainsurface.fill((255, 255, 255))
+mainsurface.fill((BACKROUND_COLOR))
 
 # Step 1: Use loops to draw the rows of bricks. The top row of bricks should be 70 pixels away from the top of
 # the screen (BRICK_Y_OFFSET)
+
+pygame.mixer.music.load('backround_music.wav')
+pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(.5)
+
 
 x_pos = BRICK_SEP
 y_pos = BRICK_Y_OFFSET
@@ -53,17 +63,16 @@ for color in colors:
 
         y_pos += 15
         x_pos = BRICK_SEP
-
 paddle_group = pygame.sprite.Group()
-paddle = paddle.Paddle(PADDLE_WIDTH, PADDLE_HEIGHT, BLACK)
+paddle = paddle.Paddle(PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_COLOR)
 paddle_group.add(paddle)
 paddle.rect.x = 160
 paddle.rect.y = 500
 
-ba = ball.Ball(BLACK, APPLICATION_WIDTH, APPLICATION_HEIGHT, RADIUS_OF_BALL)
+ba = ball.Ball(BALL_COLOR, APPLICATION_WIDTH, APPLICATION_HEIGHT, RADIUS_OF_BALL)
 ba.rect.x = APPLICATION_WIDTH / 2
 ba.rect.y = APPLICATION_HEIGHT / 2
-
+game_over = False
 while True:
     mainsurface.fill(WHITE)
     for event in pygame.event.get():
@@ -77,9 +86,17 @@ while True:
     ba.brick_collide(bricks)
     ba.paddle_collide(paddle_group)
     mainsurface.blit(paddle.image, paddle.rect)
+    font = pygame.font.Font(None, 36)
+    center = APPLICATION_WIDTH / 2
     for x in bricks:
         mainsurface.blit(x.image, x.rect)
-
+    # if len(bricks) == 100:
+    #     game_over = True
+    # if game_over:
+    #     text = font.render("Game Over", True, WHITE)
+    #     textpos = text.get_rect()
+    #     textpos.top = 300
+    #     mainsurface.blit(text, textpos)
 
 
     pygame.display.update()
